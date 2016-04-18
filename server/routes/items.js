@@ -13,6 +13,7 @@ module.exports = function (app){
         var groceryItem = new GroceryItem(item);
         groceryItem.save(function(err,data){
             res.status(300).send();
+            console.log("save to mongo result:" + " item " + item + " err " + err + " data " + data);
         })
     });
     
@@ -20,8 +21,8 @@ module.exports = function (app){
     .delete(function(req,res){
         GroceryItem.findOne({
             _id:req.params.id
-        }).remove(function(x){
-            console.log("removed.", x);
+        }).remove(function(){
+            console.log("removed");
         });
     })
     .patch(function(req,res){

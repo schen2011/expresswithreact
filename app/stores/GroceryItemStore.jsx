@@ -1,20 +1,15 @@
 var dispatcher = require('./../dispatcher.js');
+var helper = require('./../helpers/RestHelper.js');
 
 function GroceryItemStore(){
-    //var item = [];
+    var items = [];
     var listeners = [];
-    
-    var items = [{
-        name : "Ice Cream"
-    }, {
-        name : "Waffles"
-    }, {
-        name : "Candy",
-        purchased : true
-    }, {
-        name : "Snacks"
-    }];
-    
+
+    helper.get("/api/items")
+    .then(function(data){
+        items = data;
+        triggerListeners();
+    });
     function getItems(){
         return items;
     }
@@ -43,7 +38,7 @@ function GroceryItemStore(){
         item.purchased = isBought || false;
         triggerListeners();
         
-        helper.patch('api/items/' + item._id);
+        helper.patch('api/items/' + item._id, item);
     }
     
     function onChange(listener){
